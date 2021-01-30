@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>SVG Parser</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="2750 A3">
+    <meta name="keywords" content="CHANGE ME">
+    <meta name="author" content="Dogu Gerger">
+    <!-- Load jquery, bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!--<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> -->
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <!-- Custom CSS End -->
+
+</head>
+<body>
+   <!-- <h3>SVG Parser Web Application</h3>
+    If the A3 stub is running and simple.gpx exists in the uploads/ directory on the server, then clicking on the link below will download it from the server.<br>-->
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1><span class="highlight">SVG Viewer</span> - A3</h1>
+            </div>
+        </div>
+    </header>
+    
+    <div id=page-content>
+
+        <p><br></p>
+        <h3 id="fileLogTitle">File Log Panel</h3>
+        
+        <div class="fileLog" >
+            <table id = "fileLogTable">
+                <div id="fileTableHeader">
+                    <thead>
+                        <tr>
+                            <th>Image<br>(click to download)</th>
+                            <th>File Name<br>(click to download)</th>
+                            <th>File Size</th>
+                            <th>Number of rectangles</th>
+                            <th>Number of circles</th>
+                            <th>Number of paths</th>
+                            <th>Number of groups</th>
+                        </tr>
+                    </thead>
+                </div>
+                <div id="fileTableContent">
+                    <tbody id="tableBody">
+                        
+                    </tbody>    
+                </div>    
+            </table>
+        </div> 
+
+        <form id='uploadFile' action="/upload" method="POST" enctype="multipart/form-data">
+            <input id="real-file-button" type="file" name="uploadFile" accept=".svg" hidden="hidden">
+            <button type="button" id="file-button">Choose a File</button>
+            
+            <input id="real-upload-button" type="submit" value="upload" hidden="hidden">
+            <button type="button" id="upload-button">Upload</button>
+        </form> 
+        <button class="open-button" id="open-button">Create Image</button>
+        <div class="form-popup" id="myForm">
+            <form action="" class="form-container" id='myForm'>
+            
+            <label for="svgNameInput"><b>SVG File Name</b></label>
+            <input type="text" id="svgNameInput" placeholder="Enter SVG Name" name="svgNameInput" >
+
+            <label for="titleInput"><b>Title</b></label>
+            <input type="text" id="titleInput" placeholder="Enter Title" name="titleInput" >
+        
+            <label for="descriptionInput"><b>Description</b></label>
+            <input type="text" id="descriptionInput" placeholder="Enter Description" name="descriptionInput">
+        
+            <input value="Create" id="submit-btn" class="btn"></input>
+            <button id="cls-btn" class="btn cancel">Close</button>
+            </form>
+        </div>
+        
+        <p><br><br><br></p>
+        
+        <h3 id="svgPanelTitle">SVGimage Panel</h3>
+        <div id="dropdownList">
+            <select class="select-css" id="mySelect">
+                <option value="default">No Selection</option>
+            </select>
+        </div>
+
+
+        <table id="mainSVGtable">
+            <table id="defaultTable" class="defaultTable">
+                <thead>
+                    <tr>
+                        <th>SVG View Panel</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <td>No file selected</td>
+                </tbody>
+            </table>
+            <div>
+            <button class="open-button" id="open-button-2">Add Rectangle</button>
+            <div class="form-popup" id="myForm2">
+                <form action="" class="form-container" id='myForm2'>
+                    
+                    <label for="xInput"><b>Value for x:</b></label>
+                    <input type="text" id="xInput" placeholder="Enter x Coordinate" name="xInput" >
+        
+                    <label for="yInput"><b>Value for y:</b></label>
+                    <input type="text" id="yInput" placeholder="Enter y Coordinate" name="yInput" >
+                
+                    <label for="hInput"><b>Value for height:</b></label>
+                    <input type="text" id="hInput" placeholder="Enter the height" name="hInput">
+                    
+                    <label for="wInput"><b>Value for width:</b></label>
+                    <input type="text" id="wInput" placeholder="Enter the width" name="wInput">
+
+                    <label for="uInput"><b>Units:</b></label>
+                    <input type="text" id="uInput" placeholder="Enter units:" name="uInput">
+
+                    <input value="Add" id="submit-btn-2" class="btn"></input>
+                    <button id="cls-btn-2" class="btn cancel">Close</button>
+                </form>
+            </div>
+            </div>    
+        </table>
+            <div class="dropdown">
+              <button class="btn btn-primary dropdown-toggle" id="menu1" type="button" data-toggle="dropdown" data-flip="false">Show Attributes
+              <span class="caret"></span></button>
+              <ul id="main-attribute-dropdown" class="dropdown-menu" role="menu" aria-labelledby="menu1">
+              </ul>
+            </div>
+            <div class="myModal">
+                <div class="modal-content">
+                    <span class=close-button>&times;</span>
+                    <table id="main-table"> 
+                    </table>
+                </div>
+
+            </div>
+
+            <p><br><br><br><br></p>
+            <p><br><br><br><br></p>
+            
+
+    <!--
+        <form ref='someform' id='someform'>
+            <div class="form-group">
+                <label for="entryBox">Last Name</label>
+                <input type="text" class="form-control" id="entryBox" value="Value" placeholder="Placeholder">
+            </div>
+            <div class="form-group">
+                <input type='submit' class="btn btn-secondary">
+            </div>
+        </form>
+    
+    </div>  -->
+
+    <!-- Leave me at the bottom of body -->
+    <script type="application/javascript" src="/index.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
